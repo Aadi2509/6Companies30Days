@@ -1,0 +1,56 @@
+//Solution accepted in GFG
+
+#include<bits/stdc++.h> 
+using namespace std; 
+
+ // } Driver Code Ends
+class Solution{   
+public:
+    string printMinNumberForPattern(string s){
+        // code here 
+        int len=s.length();
+        string ans="";
+        stack<int> stk;
+        int n=1;
+        for(int i=0;i<len;i++){
+            if(s[i]=='D'){
+                stk.push(n);
+                n++;
+            }else{
+               stk.push(n);
+                n++;
+                
+                while(stk.size()!=0){
+                    int val=stk.top();
+                    ans=ans.append(to_string(val));
+                    stk.pop();
+                }
+            }
+        }
+        stk.push(n);
+        while(stk.size()!=0){
+            int value=stk.top();
+                    ans=ans.append(to_string(value));
+                    stk.pop();
+        }
+        
+        return ans;
+    }
+};
+
+
+// { Driver Code Starts.
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string S;
+        cin >> S;
+        Solution ob;
+        cout << ob.printMinNumberForPattern(S) << endl;
+    }
+    return 0; 
+} 
+  // } Driver Code Ends

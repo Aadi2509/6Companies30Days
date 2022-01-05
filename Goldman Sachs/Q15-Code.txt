@@ -1,0 +1,56 @@
+//Solution accepted in GFG
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+  public:
+    bool canPair(vector<int> nums, int k) {
+        // Code here.
+        unordered_map<int,int> mp;
+        int n=nums.size();
+        if(n%2!=0){
+            return false;
+        }
+        
+        for(int i=0;i<n;i++){
+            mp[nums[i]%k]++;
+        }
+        
+        for(int i=0;i<n;i++){
+            int r1=nums[i]%k;
+            
+            if(r1==0){
+                if(mp[r1]%2!=0){return false;}
+            }else{
+                int r2=k-r1;
+                if(r1==r2 && mp[r1]%2!=0){return false;}
+                else if(mp.find(r2)==mp.end()){return false;}
+                else if(mp[r1]!=mp[r2]){return false;}
+            }
+        }
+        
+        return true;
+        
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int tc;
+    cin >> tc;
+    while (tc--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> nums(n);
+        for (int i = 0; i < nums.size(); i++) cin >> nums[i];
+        Solution ob;
+        bool ans = ob.canPair(nums, k);
+        if (ans)
+            cout << "True\n";
+        else
+            cout << "False\n";
+    }
+    return 0;
+}  // } Driver Code Ends
