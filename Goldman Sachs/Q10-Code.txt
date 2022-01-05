@@ -1,0 +1,5 @@
+We can solve this by creating a min-heap of size 10.
+Initially,we insert 10 elements into the min-Heap.
+Then we traverse the remaining elements int the list and if any of them is greater than the top of the priority queue,then we remove the top element and insert the current element.
+
+This takes O(10Mlog(10)) time.
