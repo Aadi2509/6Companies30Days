@@ -1,0 +1,98 @@
+//Solution Accepted in GFG
+
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    
+    int Solve(int p[],vector<vector<pair<int,int>>> &dp,int i,int j){
+        if(i>=j){
+            return 0;
+        }
+        
+        if(dp[i][j].first!=-1){
+            return dp[i][j].first;
+        }
+        int ans=INT_MAX;
+        int tempAns;
+        int part;
+        for(int k=i;k<=j-1;k++){
+            tempAns=Solve(p,dp,i,k)+Solve(p,dp,k+1,j)+(p[i-1]*p[k]*p[j]);
+            
+            if(tempAns<ans){
+                ans=tempAns;
+                part=k;
+            }
+        }
+         dp[i][j].first=ans;
+         dp[i][j].second=part;
+         
+         
+         return dp[i][j].first;
+    }
+
+ void findInDP(vector<vector<pair<int,int>>> dp,int i,int j,string &s){
+     
+     if(i==j){
+         s=s+char(i+64);
+         return ;
+     }
+     
+     int part=dp[i][j].second;
+    
+    s=s+'(';
+     findInDP(dp,i,part,s);
+     findInDP(dp,part+1,j,s);
+    s=s+')';
+    // int index1=s.find('A'+i-1);
+    // int index2=s.find('A'+j-1);
+    
+    // s.insert(index1,"(");
+    // s.insert(index2+2,")");
+    
+     return;
+ }
+
+    string matrixChainOrder(int p[], int N){
+        // code here
+        vector<vector<pair<int,int>>> dp;
+        for(int i=0;i<N;i++){
+            vector<pair<int,int>> temp;
+            for(int j=0;j<N;j++){
+                temp.push_back({-1,-1});
+            }
+            dp.push_back(temp);
+        }
+        string s="";
+        // string temp="";
+        
+        Solve(p,dp,1,N-1);
+        
+        findInDP(dp,1,N-1,s);
+        return s;
+    }
+};
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        int p[n];
+        for(int i = 0;i < n;i++)
+            cin>>p[i];
+        
+        Solution ob;
+        cout<<ob.matrixChainOrder(p, n)<<"\n";
+    }
+    return 0;
+}  // } Driver Code Ends

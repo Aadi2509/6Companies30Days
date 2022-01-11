@@ -1,0 +1,53 @@
+//Solution accepted in GFG
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+	public:
+		string FirstNonRepeating(string A){
+		    // Code here
+		  list<char> q;
+		  unordered_map<int , list<char>::iterator> map;
+		  int freq[26]={0};
+		  string ans;
+		  for(int i=0;i<A.length();i++){
+		      freq[A[i]-97]++;
+		      if(freq[A[i]-97]<=1){
+		          q.push_front(A[i]);
+		          
+		          map[A[i]-97]= q.begin() ;
+		      }else{
+		          if(map.find(A[i]-97)!=map.end()){
+		            q.erase(map[A[i]-97]);
+		             map.erase(A[i]-97);
+		              
+		          }
+		      }
+		      
+		      if(q.empty()){
+		          ans+="#";
+		      }else{
+		          ans+=q.back();
+		      }
+		  }
+		  
+		  return ans;
+	}
+
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		string A;
+		cin >> A;
+		Solution obj;
+		string ans = obj.FirstNonRepeating(A);
+		cout << ans << "\n";
+	}
+	return 0;
+}  // } Driver Code Ends
