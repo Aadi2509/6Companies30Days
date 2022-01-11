@@ -1,0 +1,59 @@
+//solution Accepted in GFG
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+
+class Solution{
+    public:
+    string colName (long long int n)
+    {
+        // your code here
+        string ans;
+        long long int val=n/26;
+        long long int r=n%26;
+        
+        if(val==0){
+            ans=ans+char(r+64);
+            return ans;            
+        }
+        else if(val<=26){
+            if(r==0){
+                ans=ans+char(val-1+64);
+                ans=ans+'Z';
+            }else{
+                ans=ans+char(val+64);
+                ans=ans+char(r+64);
+            }
+            
+            return ans;
+        }
+        
+        if(r!=0)
+        ans=colName(val);
+        else
+        ans=colName(val-1);
+        if(r!=0)
+        ans=ans+char(r+64);
+        else
+        ans=ans+'Z';
+        
+        
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+int main()
+{
+    int t; cin >> t;
+    while (t--)
+	{
+		long long int n; cin >> n;
+		Solution ob;
+		cout << ob.colName (n) << '\n';
+	}
+}
+  // } Driver Code Ends
