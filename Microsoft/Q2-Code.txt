@@ -1,0 +1,73 @@
+//Solution Accepted in GFG
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+public:
+    bool checkCycle(int i,vector<int> &vis,vector<int> &dfsvis,vector<vector<int>> &g){
+        
+        vis[i]=1;
+        dfsvis[i]=1;
+        
+        for(auto x:g[i]){
+            if(!vis[x]){
+                if(checkCycle(x,vis,dfsvis,g)){
+                    return true;
+                }
+            }else if(dfsvis[x]){
+                return true;
+            }
+        }
+        
+        dfsvis[i]=0;
+        return false;
+    }
+	bool isPossible(int N, vector<pair<int, int> >& pre) {
+	    // Code here
+	    vector<vector<int>> g(N);
+	    
+	    for(auto x:pre){
+	        g[x.first].push_back(x.second);
+	    }
+	    
+	    vector<int> vis(N,0);
+	    vector<int> dfsvis(N,0);
+	    
+	    for(int i=0;i<N;i++){
+	        if(!vis[i]){
+	            if(checkCycle(i,vis,dfsvis,g)){
+	                return false;
+	            }
+	        }
+	    }
+	    return true;
+	}
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+    	int N, P;
+        vector<pair<int, int> > prerequisites;
+        cin >> N;
+        cin >> P;
+        for (int i = 0; i < P; ++i) {
+            int x, y;
+            cin >> x >> y;
+            prerequisites.push_back(make_pair(x, y));
+        }
+        // string s;
+        // cin>>s;
+        Solution ob;
+        if (ob.isPossible(N, prerequisites))
+            cout << "Yes";
+        else
+            cout << "No";
+        cout << endl;
+	}
+	return 0;
+}  // } Driver Code Ends

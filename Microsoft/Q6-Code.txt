@@ -1,0 +1,103 @@
+//Solution accepted in GFG 
+
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+#include <string>
+
+using namespace std;
+
+
+ // } Driver Code Ends
+//User function Template for C++
+
+class Solution
+{
+    public:
+    //Function to find list of all words possible by pressing given numbers.
+    void Solve(int a[],int i,int &N,vector<string> &ans,vector<string> &value,string &temp){
+        
+        
+        
+        
+        if(i==N){
+            
+            ans.push_back(temp);
+            //temp.erase(i-1,1);
+            // for(int i=0;i<ans.size();i++){
+            //     cout<<ans[i]<<" ";
+            // }
+            // cout<<endl;
+            //temp.erase(i-1,1);
+            return;
+        }
+       
+         for(char ch : value[a[i]]){
+             temp.push_back(ch);
+             Solve(a,i+1,N,ans,value,temp);
+             temp.pop_back();
+         }
+      
+        
+   
+        
+    }
+
+    vector<string> possibleWords(int a[], int N)
+    {
+        //Your code here
+        vector<string> ans;
+        vector<string> value;
+        string t="";
+        value.push_back("0");
+        value.push_back("0");
+        for(int i=2;i<=24;){
+            string temp="";
+            if(i==17 || i==24){
+                temp=temp+char(i+95)+char(i+96)+char(i+97)+char(i+98);
+                i+=4;
+            }else{
+                temp=temp+char(95+i)+char(95+i+1)+char(95+i+2);
+                i+=3;
+            }
+            
+            value.push_back(temp);
+        }
+        
+      Solve(a,0,N,ans,value,t);
+      
+      return ans;
+        
+     
+    }
+};
+
+
+// { Driver Code Starts.
+
+int main() {
+  
+	int T;
+	
+	cin >> T; //testcases
+	
+	while(T--){ //while testcases exist
+	   int N;
+	    
+	   cin >> N; //input size of array
+	   
+	   int a[N]; //declare the array
+	   
+	   for(int i =0;i<N;i++){
+	       cin >> a[i]; //input the elements of array that are keys to be pressed
+	   }
+	   
+	   Solution obj;
+	   
+	  vector <string> res = obj.possibleWords(a,N);
+	  for (string i : res) cout << i << " ";
+	   cout << endl;
+	}
+	
+	return 0;
+}  // } Driver Code Ends
