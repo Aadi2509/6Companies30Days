@@ -1,0 +1,59 @@
+//Solution accepted in GFG
+
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+public:
+    int Solve(vector<vector<int>> &dp,vector<int> &A,int i,int j){
+        if(i>j){
+            return dp[i][j]=0;
+        }
+        if(i==j){
+            return dp[i][j]=A[i];
+        }
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
+        
+        
+        int way1=A[i]+min(Solve(dp,A,i+2,j),Solve(dp,A,i+1,j-1));
+        int way2=A[j]+min(Solve(dp,A,i+1,j-1),Solve(dp,A,i,j-2));
+        
+        
+        int ans=max(way1,way2);
+        dp[i][j]=ans;
+        return ans;
+    }
+    int maxCoins(vector<int>&A,int n)
+    {
+	    //Write your code here\
+	    
+	    vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+	    
+	    int ans=Solve(dp,A,0,n-1);
+	    return ans;
+	    
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N;
+        cin >> N;
+        vector<int>A(N);
+        for (int i = 0; i < N; i++) {
+            cin >> A[i];
+        }
+        Solution ob;
+        cout << ob.maxCoins(A, N) << "\n";
+    }
+    return 0;
+}
+  // } Driver Code Ends

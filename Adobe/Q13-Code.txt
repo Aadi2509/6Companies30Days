@@ -1,0 +1,87 @@
+//Solution Accepted in GFG
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+//User function Template for C++
+
+class Solution {
+  public:
+  
+    int LIS(vector<int> arr){
+        int len=arr.size();
+        int dp[len+1];
+        for(int i=1;i<len+1;i++){
+            dp[i]=INT_MAX;
+        }
+        dp[0]=INT_MIN;
+        
+        for(int i=0;i<len;i++){
+            int index=upper_bound(dp,dp+len+1,arr[i])-dp;
+            if(arr[i]>dp[index-1] && arr[i]<dp[index]){
+                dp[index]=arr[i];
+            }
+        }
+        
+        int mx=0;
+        for(int i=len;i>=0;i--){
+            if(dp[i]!=INT_MAX){
+                mx=i;
+                break;
+            }
+        }
+        
+        return mx;
+    }
+    
+    int minInsAndDel(int A[], int B[], int N, int M) {
+        // code here
+        unordered_map<int,int> mp;
+        vector<int> newA;
+        
+        for(int i=0;i<M;i++){
+            mp[B[i]]++;
+        }
+        
+        int cost=0;
+        for(int i=0;i<N;i++){
+            if(mp.find(A[i])!=mp.end()){
+                newA.push_back(A[i]);
+            }
+        }
+        
+        cost=N-newA.size();
+        //cout<<cost<<" ";
+        int lis=LIS(newA);
+        //cout<<lis<<" ";
+        
+        int del=newA.size()-lis;
+        int ins=M-lis;
+        
+        return (del+ins+cost);
+        
+    }
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N,M;
+        cin>>N>>M;
+        
+        int A[N], B[M];
+        for(int i=0; i<N; i++)
+            cin>>A[i];
+        for(int i=0; i<M; i++)
+            cin>>B[i];
+
+        Solution ob;
+        cout << ob.minInsAndDel(A,B,N,M) << endl;
+    }
+    return 0;
+}  // } Driver Code Ends

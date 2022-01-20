@@ -1,0 +1,47 @@
+//Solution accepted in GFG
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+
+class Solution{
+    public:
+    string amendSentence (string s)
+    {
+        // your code here
+        string ans="";
+        int i=0;
+        int j;
+        for(j=1;j<s.length();){
+            if(s[j]>='A' && s[j]<='Z'){
+                char lower=tolower(s[i]);
+                i++;
+                ans=ans+lower+s.substr(i,j-i);
+                ans=ans+" ";
+                i=j;
+                j++;
+            }else{
+                j++;
+            }
+        }
+        char lo=tolower(s[i]);
+        i++;
+        ans+=lo+s.substr(i,j-1);
+        
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+int main()
+{
+	int t; cin >> t;
+	while (t--)
+	{
+		string s; cin >> s;
+		Solution ob;
+		cout << ob.amendSentence (s) << endl;
+	}
+}  // } Driver Code Ends
