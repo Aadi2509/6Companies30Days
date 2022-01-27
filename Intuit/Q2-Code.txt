@@ -1,0 +1,117 @@
+//Solution Accepted in GFG
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+public:
+   
+    void searchForFirstLetter(vector<vector<char>> &board,char firstL,queue<pair<int ,int>> &q,int n,int m){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]==firstL){
+                    q.push({i,j});
+                }
+            }
+        }
+    }
+
+    void DFS(vector<vector<char>> &board,vector<vector<int>> &vis,int x,int y,int i,string word,string &temp){
+        // cout<<"{"<<x<<","<<y<<"}"<<endl;
+        
+        vis[x][y]=1;
+        int dx[4]={1,-1,0,0};
+        int dy[4]={0,0,1,-1};
+        temp+=board[x][y];
+        
+        if(i==word.length()){
+            // tof=true;
+            return ;
+        }
+        
+        for(int k=0;k<4;k++){
+            int nx=x+dx[k];
+            int ny=y+dy[k];
+            if(nx<0 || ny<0 || nx>=board.size() || ny>=board[0].size()){
+                continue;
+            }
+            if(vis[nx][ny]!=1 && board[nx][ny]==word[i]){
+                // cout<<"nx="<<nx<<",ny="<<ny<<" ";
+                DFS(board,vis,nx,ny,i+1,word,temp);
+                  
+                
+            }
+        }
+         vis[x][y]=0;
+          if(temp.length()!=word.length()){
+                    temp.pop_back();
+                }
+       
+        
+        return ;
+    }
+    
+    bool isWordExist(vector<vector<char>>& board, string word) {
+        // Code here
+        int n=board.size();
+        int m=board[0].size();
+        queue<pair<int,int>> value;
+        vector<vector<int>> visited;
+        vector<int> v;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                v.push_back(0);
+            }
+            
+            visited.push_back(v);
+        }
+        
+        searchForFirstLetter(board,word[0],value,n,m);
+        
+        
+        while(!value.empty()){
+            int realX=value.front().first;
+            int realY=value.front().second;
+            value.pop();
+            string temp="";
+            int i=1;
+            bool tof;
+            if(visited[realX][realY]!=1){
+                DFS(board,visited,realX,realY,i,word,temp);
+            }
+            
+            if(temp==word){
+                return true;
+            }else{
+                temp="";
+                i=1;
+                continue;
+            }
+        }
+        
+        return false;
+    }
+};
+
+// { Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int n, m;
+		cin >> n >> m;
+		vector<vector<char>>board(n, vector<char>(m, '*'));
+		for(int i = 0; i < n; i++)
+			for(int j = 0; j < m; j++)
+				cin >> board[i][j];
+		string word;
+		cin >> word;
+		Solution obj;
+		bool ans = obj.isWordExist(board, word);
+		if(ans)
+			cout << "1\n";
+		else cout << "0\n";
+	}
+	return 0;
+}  // } Driver Code Ends

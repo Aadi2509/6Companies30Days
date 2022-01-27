@@ -1,0 +1,94 @@
+//Solution Accepted in leetcode
+
+class Solution {
+public:
+    int maxOfPiles(vector<int> & piles,int n){
+        int mx=piles[0];
+        for(int i=1;i<n;i++){
+            if(mx<piles[i]){
+                mx=piles[i];
+            }
+        }
+        
+        return mx;
+    }
+    
+   
+    
+    int isValid(vector<int> piles,int len,int h,int mn){
+        int hours=0;
+        for(int i=0;i<len;i++){
+            if(piles[i]<=mn){
+                hours++;
+            }else if(piles[i]>mn){
+                int r=piles[i]%mn;
+                int q=piles[i]/mn;
+                if(r==0){
+                    hours+=q;
+                }else{
+                    hours+=(q+1);
+                }
+            }
+        }
+        
+        if(h==hours){
+            return 1;
+        }else if(h>hours){
+            return 0;
+        }else{
+            return -1;
+        }
+        
+        return -1;
+    }
+    
+    int Find(int start,int end,vector<int> &piles,int h,int n){
+        int res=-1;
+        while(start<=end){
+            int mid=start+((end-start)/2);
+            int check=isValid(piles,n,h,mid);
+            //cout<<" mid-"<<mid<<" check-"<<check;
+            if(check==1){
+                res=mid;
+                end=mid-1;
+            }else if(check==0){
+                res=mid;
+                end=mid-1;
+                
+            }else{
+              start=mid+1;  
+            }
+        }
+        
+        return res;
+    }
+    
+    int minEatingSpeed(vector<int>& piles, int h) {
+        
+        int n=piles.size();
+        if(h<n){
+            return -1;
+        }
+        if(n==h){
+            return maxOfPiles(piles,n);
+        }
+        int hours=0;
+        if(n==1){
+            int r=piles[0]%h;
+                int q=piles[0]/h;
+                if(r==0){
+                    hours+=q;
+                }else{
+                    hours+=(q+1);
+                }
+            
+            return hours;
+        }
+        
+        //int start=minOfPiles(piles,n);
+        int start=0;
+        int end=maxOfPiles(piles,n);
+        
+        return Find(start,end,piles,h,n);
+    }
+};

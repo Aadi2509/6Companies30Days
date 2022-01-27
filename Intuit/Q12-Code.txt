@@ -1,0 +1,75 @@
+//Solution Accepted in leetcode
+
+class Solution {
+public:
+    bool checkCycle(int i,vector<int> &vis,vector<int> &dfsvis,vector<vector<int>> &g){
+        
+        vis[i]=1;
+        dfsvis[i]=1;
+        
+        for(auto x:g[i]){
+            if(!vis[x]){
+                if(checkCycle(x,vis,dfsvis,g)){
+                    return true;
+                }
+            }else if(dfsvis[x]){
+                return true;
+            }
+        }
+        
+        dfsvis[i]=0;
+        return false;
+    }
+    
+    void DFS(vector<vector<int>> &v,vector<int> &vis,int node,vector<int> &ans){
+        
+        vis[node]=1;
+        
+        for(auto x:v[node]){
+            if(!vis[x]){
+                DFS(v,vis,x,ans);
+            }
+        }
+        
+        ans.push_back(node);
+    }
+    vector<int> findOrder(int num, vector<vector<int>>& pre) {
+        
+        vector<int> ans;
+        if(pre.size()==0){
+            for(int i=0;i<num;i++){
+                ans.push_back(i);
+            }
+            
+            return ans;
+        }
+        
+        vector<vector<int>> g(num);
+	    
+	    for(auto x:pre){
+	        g[x[0]].push_back(x[1]);
+	    }
+        
+        vector<int> vis(num,0);
+	    vector<int> dfsvis(num,0);
+	    
+	    for(int i=0;i<num;i++){
+	        if(!vis[i]){
+	            if(checkCycle(i,vis,dfsvis,g)){
+	                return ans;
+	            }
+	        }
+	    }
+        
+        vector<int> v(num,0);
+        
+        for(int i=0;i<num;i++){
+            if(!v[i]){
+                DFS(g,v,i,ans);
+            }
+        }
+	    
+     //reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};

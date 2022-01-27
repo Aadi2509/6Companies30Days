@@ -1,0 +1,88 @@
+//Solution Accepted in leetcode
+
+class Solution {
+public:
+    
+    void DFS(vector<vector<int>> &arr,int i,int j,vector<vector<int>> &fill){
+        int n=arr.size();
+        int m=arr[0].size();
+        fill[i][j]=1;
+        int dx[]={0,1,0,-1};
+        int dy[]={1,0,-1,0};
+        
+        for(int k=0;k<4;k++){
+            int nx=i+dx[k];
+            int ny=j+dy[k];
+            
+            if(nx<0 || ny<0 || nx>=n || ny>=m){
+                continue;
+            }
+            
+            if(fill[nx][ny]!=1 && arr[nx][ny]>=arr[i][j]){
+                DFS(arr,nx,ny,fill);
+            }
+        }
+        
+        return;
+    }
+    
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        int n=heights.size();
+        int m=heights[0].size();
+        
+        vector<vector<int>> ans;
+        
+        vector<vector<int>> pacificVect;
+        vector<vector<int>> atlanticVect;
+        vector<int> v;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                v.push_back(0);
+            }
+            pacificVect.push_back(v);
+            atlanticVect.push_back(v);
+            v.clear();
+        }
+        
+        //For Pacific Ocean
+        for(int i=0;i<m;i++){
+            if(pacificVect[0][i]!=1){
+                DFS(heights,0,i,pacificVect);
+            }
+        }
+        
+        for(int i=0;i<n;i++){
+            //heightsi0
+            if(pacificVect[i][0]!=1){
+                DFS(heights,i,0,pacificVect);
+            }
+        }
+        
+        //For Atlantic Ocean
+        for(int i=0;i<m;i++){
+            if(atlanticVect[n-1][i]!=1){
+               DFS(heights,n-1,i,atlanticVect);
+            }
+        }
+        
+        for(int i=0;i<n;i++){
+            if(atlanticVect[i][m-1]!=1){
+               DFS(heights,i,m-1,atlanticVect);
+            }
+        }
+        
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(pacificVect[i][j]==1 && atlanticVect[i][j]==1){
+                    v.push_back(i);
+                    v.push_back(j);
+                    ans.push_back(v);
+                    v.clear();
+                }
+            }
+        }
+        
+        return ans;
+    }
+};

@@ -1,0 +1,70 @@
+//Solution Accepted in GFG
+
+class Solution {
+public:
+    int maxOfArray(vector<int> &nums,int len){
+        int mx=nums[0];
+        for(int i=1;i<len;i++){
+            if(mx<nums[i]){
+                mx=nums[i];
+            }
+        }
+        return mx;
+    }
+    
+    int sumOfArray(vector<int> &nums,int len){
+        int sum=0;
+        for(int i=0;i<len;i++){
+            sum+=nums[i];
+        }
+        
+        return sum;
+    }
+    
+    bool isValid(vector<int> &nums,int len,int m,int mx){
+        int std=1;
+        int sum=0;
+        for(int i=0;i<len;i++){
+            sum+=nums[i];
+            if(sum>mx){
+                std++;
+                sum=nums[i];
+            }
+            
+            if(std>m)
+                return false;
+        }
+        
+        return true;
+    }
+    
+    int Find(int start,int end,vector<int> &nums,int m,int len){
+        int res=-1;
+        while(start<=end){
+            int mid=start+((end-start)/2);
+            
+            if(isValid(nums,len,m,mid)){
+                res=mid;
+                end=mid-1;
+            }else{
+                start=mid+1;
+            }
+        }
+        
+        return res;
+    }
+    
+    int splitArray(vector<int>& nums, int m) {
+        int len=nums.size();
+        int start=maxOfArray(nums,len);
+        int end=sumOfArray(nums,len);
+        
+        if(len<m){
+            return -1;
+        }else if(m==1){
+            return sumOfArray(nums,len);
+        }
+        
+        return Find(start,end,nums,m,len);
+    }
+};

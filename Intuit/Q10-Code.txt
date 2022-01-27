@@ -1,0 +1,32 @@
+//Solution Accepted in Leetcode
+
+class Solution {
+public:
+    void DFS(vector<vector<int>> &a,int i){
+        a[i][i]=0;
+        for(int j=0;j<a[0].size();j++){
+            if(a[i][j]!=0){
+                a[i][j]=0;
+                if(a[j][j]!=0){
+                    DFS(a,j);
+                }
+            }
+        }
+        
+        return;
+    }
+    
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        
+        int n=isConnected.size();
+        int ans=0;
+        for(int i=0;i<n;i++){
+            if(isConnected[i][i]!=0){
+                ans++;
+                DFS(isConnected,i);
+            }
+        }
+        
+        return ans;
+    }
+};
