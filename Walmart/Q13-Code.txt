@@ -1,0 +1,38 @@
+//Solution accepted in leetcode
+
+class Solution {
+public: 
+
+     struct compare{
+        bool operator()(string a,string b){
+            if(a.length()!=b.length())return a.length()>b.length();
+            return a>b;
+        }
+    };
+   
+    string kthLargestNumber(vector<string>& nums, int k) {
+        string ans;
+        int len=nums.size();
+        
+        
+        priority_queue<string,vector<string>,compare> minh;
+        for(int i=0;i<k;i++){
+            minh.push(nums[i]);
+        }
+        
+        for(int i=k;i<len;i++){
+            if(minh.top().length()<nums[i].length()){
+                minh.pop();
+                 minh.push(nums[i]); 
+            }else if(minh.top().length()==nums[i].length()){
+                if(minh.top()<nums[i]){
+                    minh.pop();
+                    minh.push(nums[i]); 
+                }
+            }
+        }
+        
+        ans=minh.top();
+        return ans;
+    }
+};

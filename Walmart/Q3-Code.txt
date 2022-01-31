@@ -1,0 +1,50 @@
+//Solution accepted in leetcode
+
+class Solution {
+public:
+    bool winnerOfGame(string s) {
+       
+        if(s.length()==2 || s.length()==1){
+            return false;
+        }
+        
+        if(s.length()==3){
+            if(s[1]=='A'){
+                if(s[0]==s[1] && s[1]==s[2]){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }    
+        }
+        
+        int aflag=0;
+        int bflag=0;
+        int i=1;
+            while(i<s.length()-1){
+                if(s[i]=='A'){
+                    if(s[i]==s[i+1] && s[i]==s[i-1]){
+                        aflag++;
+                    }
+                }   
+                if(s[i]=='B'){
+                    if(s[i]==s[i+1] && s[i]==s[i-1]){
+                        bflag++;
+                    }
+                }
+                i++;
+            }
+            if(aflag==0 && bflag==0){
+                bflag++;
+            }
+        
+        if(aflag>bflag){
+            return true;
+        }
+      
+        
+        return false;
+    }
+};

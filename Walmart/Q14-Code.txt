@@ -1,0 +1,77 @@
+//Solution accepted in GFG
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+
+
+class Solution
+{
+    public:
+    //Function to find the largest number after k swaps.
+    string max;
+    long long int convertSToI(string s){
+        long long int x=0;
+        for(int i=0;i<s.length();i++){
+            x=x*10+s[i]-'0';
+        }
+    
+        return x;
+    }
+    //int findMax(string str,)
+    void Solve(string str,int k,int ind){
+        if(max<str){
+            max=str;
+        }
+        
+        if(k==0){
+            return;
+        }
+        
+        for(int i=ind;i<str.length()-1;i++){
+            //int val=findMax(str,i+1);
+            for(int j=i+1;j<str.length();j++){
+                if(str[j]>str[i]){
+                    char temp=str[i];
+                    str[i]=str[j];
+                    str[j]=temp;
+                    // str=swap(str,i,j);
+                    Solve(str,k-1,i+1);
+                    // str=swap(str,i,j);
+                   char t=str[i];
+                    str[i]=str[j];
+                    str[j]=t;
+                }
+            }
+        }
+        return;
+    }
+    
+    string findMaximumNum(string str, int k)
+    {
+       // code here.
+       max=str;
+       Solve(str,k,0);
+       return max;
+    }
+};
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t, k;
+    string str;
+
+    cin >> t;
+    while (t--)
+    {
+        cin >> k >> str;
+        Solution ob;
+        cout<< ob.findMaximumNum(str, k) << endl;
+    }
+    return 0;
+}
+  // } Driver Code Ends

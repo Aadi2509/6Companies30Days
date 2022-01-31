@@ -1,0 +1,48 @@
+//Solution Accepted in gfg
+
+class Solution {
+public:
+    struct compare{
+        bool operator()(const pair<long long int,long long int> &a,const pair<long long int,long long int> &b){
+            return (a.second>b.second);
+        }
+    };
+    
+   static bool sortbysec(const pair<long long int,long long int> &a,const pair<long long int, long long int> &b){
+        return (a.first>b.first);
+    }
+    
+    int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
+        vector<pair<long long int,long long int>> sev;
+        for(int i=0;i<n;i++){
+            sev.push_back({efficiency[i],speed[i]});
+        }
+        sort(sev.begin(),sev.end(),sortbysec);
+        
+        priority_queue<pair<long long int,long long int>,vector<pair<long long int,long long int>>,compare> minh;
+        
+        long long int speedTotal=0;
+        long long int mxPerf=INT_MIN;
+        long long int perf=0;
+        long long int minEff;
+        for(int i=0;i<n;i++){
+            if(minh.size()==k){
+                
+                    pair<long long int,long long int> val=minh.top();
+                    minh.pop();
+                    speedTotal-=val.second;
+               
+            }
+
+            
+            minh.push(sev[i]);
+            speedTotal+=sev[i].second;
+            minEff=sev[i].first;
+            perf=((speedTotal)*(minEff));
+            
+            mxPerf=max(mxPerf,perf);
+        }
+        
+        return mxPerf%1000000007;
+    }
+};

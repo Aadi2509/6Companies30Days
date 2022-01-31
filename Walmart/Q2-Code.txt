@@ -1,0 +1,55 @@
+//solution accepted in leetcode
+
+class Solution {
+public:
+  
+     int Solve(vector<int> &piles,vector<vector<int>> &dp,int i,int j){
+        if(i>j){
+            return 0;
+        }
+         if(i==j){
+            return dp[i][j]=piles[i];
+        }
+        
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
+        
+        int way1=piles[i]+min(Solve(piles,dp,i+2,j),Solve(piles,dp,i+1,j-1));
+         int way2=piles[j]+min(Solve(piles,dp,i+1,j-1),Solve(piles,dp,i,j-2));
+        
+         int ans=max(way1,way2);
+       return dp[i][j]=ans;
+        //return ans;
+    }
+    
+    int calculateSum(vector<int> piles,int n)
+    {
+         int sum=0;
+        for(int i=0;i<n;i++){
+            sum+=piles[i];
+        }
+        
+        return sum;
+    }
+    
+    bool stoneGame(vector<int>& piles) {
+        int n=piles.size();
+        if(n==2){
+            return true;
+        }
+       
+        
+        vector<vector< int>> dp(n+1, vector< int>(n+1, -1));
+     
+         int alice=Solve(piles,dp,0,n-1);
+         int sum=calculateSum(piles,n);
+         int bob=sum-alice;
+        
+        if(alice>bob){
+            return true;
+        }
+        
+        return false;
+    }
+};

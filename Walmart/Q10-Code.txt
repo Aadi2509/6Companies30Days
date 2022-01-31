@@ -1,0 +1,37 @@
+//Solution accepted in leetcode
+
+class Solution {
+public:
+    double r,x_r,y_r;
+    double PI = 3.14159265358979323846264;
+    Solution(double radius, double x_center, double y_center) {
+        r=radius;
+        x_r=x_center;
+        y_r=y_center;
+    }
+    
+    double generateRandomNumber(){
+        double number=(double)rand()/RAND_MAX;
+        return number;
+    }
+    
+    vector<double> randPoint() {
+        
+        double len=sqrt(generateRandomNumber())*r;
+        double theta=generateRandomNumber()*2*PI;
+        double x=x_r+(len*cos(theta));
+        double y=y_r+(len*sin(theta));
+        
+        vector<double> ans;
+        ans.push_back(x);
+        ans.push_back(y);
+        return ans;
+        
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(radius, x_center, y_center);
+ * vector<double> param_1 = obj->randPoint();
+ */

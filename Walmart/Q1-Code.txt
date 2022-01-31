@@ -1,0 +1,40 @@
+//Solution accepted in leetcode
+
+class Solution {
+public:
+    
+    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
+        vector<vector<pair<int,double>>> graph(n);
+        
+        for(int i=0;i<edges.size();i++){
+            graph[edges[i][0]].push_back({edges[i][1],succProb[i]});
+            graph[edges[i][1]].push_back({edges[i][0],succProb[i]});
+        }
+        
+        vector<double> ProbTo(n,0);
+        ProbTo[start]=1.00;
+        
+        priority_queue<pair<double,int>> minh;//probability(dista ce),node;
+        
+        minh.push({1.00,start});
+        while(!minh.empty()){
+            double prob=minh.top().first;
+            int prevNode=minh.top().second;
+            //cout<<prob<<" "<<prevNode<<" ";
+            minh.pop();
+            //vector<pair<int,double>>::iterator it;
+            for(auto it:graph[prevNode]){
+                int nextNode=it.first;
+                double nextProb=it.second;
+                //cout<<"nextNode-"<<nextNode<<" nextProb-"<<nextProb<<" ";
+                if(ProbTo[nextNode]< prob*nextProb){
+                    ProbTo[nextNode]=prob*nextProb;
+                    minh.push({ProbTo[nextNode],nextNode});
+                }
+            }
+        }
+        
+        return ProbTo[end];
+        
+    }
+};

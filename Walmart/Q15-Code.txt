@@ -1,0 +1,22 @@
+//Solution Accepted in leetcode
+
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+       
+        if(dividend==-2147483648 && divisor==-1)
+            return 2147483647;
+        //cout<<ans;
+         int val=dividend/divisor;
+        if(val>INT_MAX-1){
+            return INT_MAX;
+        }else if(val<INT_MIN+1){
+            return INT_MIN;
+        }
+        // if(ans==-1){
+        //     val=val-2*val;
+        // }
+        // cout<<val;
+        return (int)val;
+    }
+};
